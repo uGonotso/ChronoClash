@@ -1,21 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
-public class LevelBehaviour : MonoBehaviour
+
+public class LevelResult : MonoBehaviour
 {
-    public Button homeButton; // Assign in inspector
+    public Button menuButton; // Assign in inspector
 
     // Start is called before the first frame update
     void Start()
     {
-        homeButton.onClick.AddListener(ChangeScene);
+        // Add a listener to the button click event
+        menuButton.onClick.AddListener(ChangeScene);
     }
 
     void ChangeScene()
     {
         SceneManager.LoadScene("MenuScene");
+
     }
 }
