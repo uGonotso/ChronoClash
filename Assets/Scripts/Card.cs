@@ -11,6 +11,8 @@ public class Card : MonoBehaviour
     public AudioSource cardFlipSound;
     public CardManager cardManager;
 
+    public bool isMatched = false; // Add this line
+
     void Start()
     {
         rend = GetComponent<SpriteRenderer>();
@@ -65,6 +67,7 @@ public class Card : MonoBehaviour
         // Set the state of the card based on the CardState object
         transform.position = state.position;
         gameObject.SetActive(state.isInGame);
+        isMatched = state.isMatched; // Add this line
     }
 
     public CardState GetState()
@@ -74,6 +77,7 @@ public class Card : MonoBehaviour
         state.cardName = faceSprite != null ? faceSprite.name : ""; // Add null check here
         state.position = transform.position;
         state.isInGame = gameObject.activeSelf;
+        state.isMatched = isMatched; // Add this line
         return state;
     }
 }

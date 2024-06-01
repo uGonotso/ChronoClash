@@ -43,6 +43,7 @@ public class CardManager : MonoBehaviour
                             GameObject cardObject = Instantiate(cardPrefab, cardState.position, Quaternion.identity);
                             Card card = cardObject.GetComponent<Card>();
                             card.cardManager = this;
+                            card.SetState(cardState); // Add this line
                             cards.Add(card);
                             break;
                         }
@@ -98,8 +99,8 @@ public class CardManager : MonoBehaviour
 
         if (card1.faceSprite == card2.faceSprite)
         {
-            // Save the game state before the cards are destroyed
-            SaveGameState();
+            card1.isMatched = true; // Add this line
+            card2.isMatched = true; // Add this line
 
             Destroy(card1.gameObject);
             Destroy(card2.gameObject);
@@ -110,18 +111,24 @@ public class CardManager : MonoBehaviour
 
             if (matchesMade == matchesRequired)
             {
-                SaveSystem.DeleteSaveFile(SceneManager.GetActiveScene().name);
+                SaveSystem.DeleteSaveFile(SceneManager.GetActiveScene().name); // Delete save file here
+                yield return new WaitForSeconds(0.5f); // Wait for half a second
                 SceneManager.LoadScene("LevelComplete");
+            }
+            else
+            {
+                // Save the game state after every card match and mismatch
+                SaveGameState();
             }
         }
         else
         {
-            // Save the game state before the cards are flipped down
-            SaveGameState();
-
             card1.FlipCardDown();
             card2.FlipCardDown();
             noMatchSound.Play();
+
+            // Save the game state after every card match and mismatch
+            SaveGameState();
         }
 
         turnsLeft--;
