@@ -112,12 +112,14 @@ public class CardManager : MonoBehaviour
             if (matchesMade == matchesRequired)
             {
                 SaveSystem.DeleteSaveFile(SceneManager.GetActiveScene().name); // Delete save file here
-                yield return new WaitForSeconds(0.5f); // Wait for half a second
+                yield return new WaitForSeconds(1.5f); // Wait for a sec and a second
                 SceneManager.LoadScene("LevelComplete");
             }
             else
             {
                 // Save the game state after every card match and mismatch
+                turnsLeft--;
+                turnsText.text = "Turns Left: " + turnsLeft;
                 SaveGameState();
             }
         }
@@ -128,11 +130,10 @@ public class CardManager : MonoBehaviour
             noMatchSound.Play();
 
             // Save the game state after every card match and mismatch
+            turnsLeft--;
+            turnsText.text = "Turns Left: " + turnsLeft;
             SaveGameState();
         }
-
-        turnsLeft--;
-        turnsText.text = "Turns Left: " + turnsLeft;
 
         if (turnsLeft == 0 && matchesMade != matchesRequired)
         {
@@ -143,6 +144,7 @@ public class CardManager : MonoBehaviour
         flippedCards.Remove(card1);
         flippedCards.Remove(card2);
     }
+
 
     private void SaveGameState()
     {
